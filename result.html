@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Result Portal | NIT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); }
+        .gradient-bg { background: radial-gradient(circle at top right, #eef2ff 0%, #f8fafc 100%); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    </style>
+</head>
+<body class="gradient-bg flex flex-col min-h-screen relative overflow-x-hidden">
+
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100 rounded-full blur-[120px] opacity-60 -z-10"></div>
+    <div class="absolute bottom-20 left-0 w-[400px] h-[400px] bg-indigo-100 rounded-full blur-[100px] opacity-50 -z-10"></div>
+
+    <nav class="bg-blue-950 text-white p-4 shadow-xl sticky top-0 z-50 border-b border-blue-900/50 backdrop-blur-md bg-opacity-95">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl md:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-blue-100 to-yellow-200 bg-clip-text text-transparent">
+                National Institute Of Technology (NIT)
+            </h1>
+            <div class="font-semibold text-sm">
+                <ul class="flex space-x-6 items-center">
+                    <li><a href="index.html" class="hover:text-yellow-400 transition">Home</a></li>
+                    <li><a href="teachers.html" class="hover:text-yellow-400 transition">Teachers</a></li>
+                    <li><a href="students.html" class="text-yellow-400 font-bold drop-shadow">Students</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-grow flex flex-col items-center justify-center py-16 px-4 relative">
+        <div class="w-full max-w-xl glass-card rounded-3xl shadow-2xl border border-white/60 p-8 md:p-10 transition-all duration-300">
+            <a href="students.html" class="mb-6 inline-flex items-center text-xs text-blue-900 font-bold bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-full transition group">
+                <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i> Student Services Portal
+            </a>
+
+            <div class="mb-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                        <i class="fas fa-search-plus text-lg"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">BTEB Result Engine</h3>
+                </div>
+                <p class="text-slate-500 text-xs">Verify semester results via official BTEB transcripts and archive database securely.</p>
+            </div>
+
+            <form id="searchForm" class="space-y-5">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Curriculum / Exam</label>
+                        <div class="w-full px-4 py-3 text-sm bg-slate-100/80 border border-slate-200 rounded-xl font-semibold text-slate-700 flex items-center shadow-inner cursor-not-allowed">
+                            <i class="fas fa-graduation-cap text-slate-400 mr-2"></i> Diploma In Engineering
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Regulation</label>
+                        <div class="w-full px-4 py-3 text-sm bg-slate-100/80 border border-slate-200 rounded-xl font-semibold text-slate-700 flex items-center shadow-inner cursor-not-allowed">
+                            <i class="fas fa-history text-slate-400 mr-2"></i> 2022 Regulation
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Roll Number <span class="text-rose-500">*</span></label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <input type="number" id="searchRoll" required placeholder="Enter 6-digit board roll (example 880111)" 
+                               class="w-full pl-11 pr-4 py-3.5 text-sm bg-white border border-slate-200 rounded-xl outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100 font-medium transition tracking-wide shadow-sm placeholder-slate-400">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Select Semester <span class="text-rose-500">*</span></label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <select id="searchSemester" disabled class="w-full pl-11 pr-10 py-3.5 text-sm bg-slate-100 border border-slate-200 rounded-xl font-bold text-blue-700 transition appearance-none cursor-not-allowed shadow-sm">
+                            <option value="any" selected>✨ All Semesters </option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                            <i class="fas fa-lock text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="searchBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition duration-300 shadow-xl shadow-blue-600/20 hover:shadow-blue-600/30 flex items-center justify-center group text-sm tracking-wide">
+                    <i class="fas fa-bolt mr-2 group-hover:scale-110 transition-transform text-yellow-300"></i> View Full Profile Result
+                </button>
+            </form>
+
+            <div id="loading" class="hidden text-center py-6 mt-4">
+                <i class="fas fa-circle-notch fa-spin text-3xl text-blue-600"></i>
+                <p class="text-xs font-semibold text-slate-500 mt-2">Searching Local Database Node...</p>
+            </div>
+
+            <div id="notFoundAlert" class="hidden mt-4 bg-rose-50 border border-rose-100 p-4 rounded-xl text-center text-xs text-rose-700 font-bold flex items-center justify-center space-x-2">
+                <i class="fas fa-exclamation-triangle text-sm"></i>
+                <span>No matching records found for this Board Roll.</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 hidden">
+        <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 relative max-h-[90vh] flex flex-col border border-white">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 w-9 h-9 rounded-full flex items-center justify-center transition-all z-20">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+
+            <div class="bg-gradient-to-br from-blue-950 via-blue-900 to-indigo-950 text-white p-6 text-center shadow-lg relative">
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="text-[10px] uppercase tracking-widest text-blue-300 font-extrabold mb-1">Official Student Archive</div>
+                <h4 id="modalHeaderRoll" class="text-3xl font-black tracking-tight mb-1"># 000000</h4>
+                
+                <div class="text-[11px] text-slate-300 uppercase tracking-wider font-semibold flex flex-wrap justify-center items-center gap-x-3 gap-y-1 mt-2">
+                    <span class="flex items-center"><i class="fas fa-graduation-cap mr-1 text-yellow-400"></i> Diploma in Engineering</span>
+                    <span>•</span>
+                    <span class="bg-blue-800/60 px-2 py-0.5 rounded border border-blue-700">2022 Regulation</span>
+                </div>
+                <div id="modalInstituteName" class="text-xs text-slate-300 mt-2 font-bold tracking-wide max-w-md mx-auto truncate">Institute Name Location</div>
+            </div>
+
+            <div class="bg-slate-50 border-b px-6 py-3 flex flex-wrap gap-2 justify-center text-xs font-bold text-slate-600">
+                <button class="flex items-center space-x-1.5 px-3 py-1.5 border bg-white rounded-lg hover:bg-slate-50 hover:text-blue-600 transition shadow-sm"><i class="fas fa-print text-blue-500"></i> <span>Print</span></button>
+                <button class="flex items-center space-x-1.5 px-3 py-1.5 border bg-white rounded-lg hover:bg-slate-50 hover:text-blue-600 transition shadow-sm"><i class="far fa-copy text-slate-400"></i> <span>Copy Raw Data</span></button>
+                <button class="flex items-center space-x-1.5 px-3 py-1.5 border bg-white rounded-lg hover:bg-slate-50 hover:text-blue-600 transition shadow-sm"><i class="fas fa-download text-emerald-500"></i> <span>Save PDF</span></button>
+            </div>
+
+            <div id="modalSemesterContainer" class="p-6 overflow-y-auto space-y-5 flex-grow custom-scrollbar">
+                </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-950 text-slate-500 py-5 text-center text-xs border-t border-slate-900 mt-auto">
+        <p>&copy; 2026 National Institute Of Technology (NIT). Powered by official BTEB Data Archives.</p>
+    </footer>
+
+    <script>
+        let btebResultsArchive = [];
+
+        const form = document.getElementById('searchForm');
+        const loading = document.getElementById('loading');
+        const notFoundAlert = document.getElementById('notFoundAlert');
+        const modal = document.getElementById('resultModal');
+        const semesterContainer = document.getElementById('modalSemesterContainer');
+
+        async function bootstrapResultEngine() {
+            try {
+                const response = await fetch('bteb_perfect_results.json');
+                btebResultsArchive = await response.json();
+                console.log(`🎯 Engine Connected! ${btebResultsArchive.length} student records loaded.`);
+            } catch (error) {
+                console.error("❌ Local JSON sync broken: ", error);
+            }
+        }
+
+        window.closeModal = function() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('.transform').classList.add('scale-95');
+            modal.querySelector('.transform').classList.remove('scale-100');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        // কম্বাইন্ড টেক্সট জিপিএ স্ট্রিং পার্স করার হেল্পার ফাংশন
+        function parseGpaString(gpaStr) {
+            const parsedData = {};
+            if (!gpaStr || typeof gpaStr !== 'string') return parsedData;
+            
+            // "gpa4: 2.67, gpa3: 3.60" কে কমা দিয়ে ভাগ করে কুয়েরি করা
+            const parts = gpaStr.split(',');
+            parts.forEach(part => {
+                const match = part.match(/gpa(\d+)\s*:\s*([\d.]+)/i);
+                if (match) {
+                    const semNumber = match[1]; // e.g., "4"
+                    const gpaVal = match[2];     // e.g., "2.67"
+                    
+                    // সেমিস্টার সাফিক্স কনভার্ট (১ কে 1st, ৪ কে 4th)
+                    let suffix = "th";
+                    if (semNumber === "1") suffix = "st";
+                    else if (semNumber === "2") suffix = "nd";
+                    else if (semNumber === "3") suffix = "rd";
+                    
+                    parsedData[`${semNumber}${suffix}`] = gpaVal;
+                }
+            });
+            return parsedData;
+        }
+
+        // কার্ড রেন্ডারিং করার জন্য রিইউজেবল ফাংশন
+        function createSemesterCardHtml(semesterName, status, cgpa, referredList) {
+            let badgeClass = "";
+            let badgeText = "";
+            let innerContent = "";
+
+            if (status.toLowerCase() === "passed") {
+                badgeText = "Passed";
+                badgeClass = "bg-emerald-100 text-emerald-700 border-emerald-200";
+                innerContent = `
+                    <div class="bg-emerald-50/40 border border-emerald-100 rounded-xl p-4 text-center relative overflow-hidden">
+                        <span class="text-[10px] text-emerald-600 font-extrabold uppercase tracking-wider block">Semester Grade Point Average (GPA)</span>
+                        <span class="text-3xl font-black text-emerald-600 tracking-tight mt-0.5 block">${cgpa}</span>
+                    </div>
+                `;
+            } else {
+                // referred / dropout হ্যান্ডলিং
+                const isDropout = status.toLowerCase() === "dropout" || (referredList && referredList.length >= 4);
+                badgeText = isDropout ? "Dropout" : "Referred";
+                badgeClass = isDropout ? "bg-rose-100 text-rose-700 border-rose-200" : "bg-amber-100 text-amber-700 border-amber-200";
+                
+                const subsCount = referredList ? referredList.length : 0;
+                let subListHtml = "";
+                
+                if (referredList && subsCount > 0) {
+                    referredList.forEach(sub => {
+                        subListHtml += `
+                            <div class="flex items-center justify-between p-2.5 bg-white border border-slate-100 rounded-lg shadow-sm">
+                                <div class="flex items-center space-x-2.5">
+                                    <span class="text-xs font-bold ${isDropout ? 'text-rose-600 bg-rose-50 border-rose-100':'text-amber-600 bg-amber-50 border-amber-100'} px-2 py-0.5 rounded border">${sub.code || "N/A"}</span>
+                                    <span class="text-xs font-semibold text-slate-700">${sub.name || "Referred Subject"}</span>
+                                </div>
+                                <span class="text-[8px] font-extrabold uppercase px-1.5 py-0.5 bg-slate-100 text-slate-500 border rounded tracking-wider">${sub.type || "Theory"}</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                innerContent = `
+                    <div class="space-y-2">
+                        <div class="${isDropout ? 'bg-rose-50 text-rose-700 border-rose-100':'bg-amber-50/50 text-amber-700 border-amber-100'} border p-2.5 rounded-xl font-bold text-xs flex items-center space-x-1.5 shadow-inner">
+                            <i class="fas ${isDropout ? 'fa-times-circle' : 'fa-exclamation-circle'} text-sm"></i>
+                            <span>${isDropout ? 'Failed/Dropout:' : 'Pending:'} ${subsCount} ${subsCount > 1 ? 'subjects' : 'subject'} yet to clear.</span>
+                        </div>
+                        <div class="grid grid-cols-1 gap-1.5 max-h-[160px] overflow-y-auto custom-scrollbar pr-1">${subListHtml}</div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="bg-slate-50/60 border border-slate-200/60 rounded-2xl p-5 space-y-3 shadow-sm">
+                    <div class="flex justify-between items-center border-b border-slate-200/80 pb-2">
+                        <span class="text-sm font-extrabold text-slate-800 tracking-tight"><i class="fas fa-graduation-cap text-blue-600 mr-1.5"></i>${semesterName} Semester Result</span>
+                        <span class="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border shadow-sm ${badgeClass}">${badgeText}</span>
+                    </div>
+                    <div>${innerContent}</div>
+                </div>
+            `;
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            notFoundAlert.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            const rollInput = document.getElementById('searchRoll').value.trim();
+            const matchedStudent = btebResultsArchive.find(student => student.boardRoll === rollInput);
+
+            setTimeout(() => {
+                loading.classList.add('hidden');
+
+                if (!matchedStudent || !matchedStudent.semesters) {
+                    notFoundAlert.classList.remove('hidden');
+                    return;
+                }
+
+                document.getElementById('modalHeaderRoll').innerText = `# ${matchedStudent.boardRoll}`;
+                document.getElementById('modalInstituteName').innerText = matchedStudent.instituteName || "National Institute of Technology";
+                semesterContainer.innerHTML = "";
+
+                // ফাইনাল সাজানো সেমিস্টারের ডাটা রাখার অবজেক্ট
+                let finalSemestersData = {};
+
+                // ডাটাবেজের প্রতিটা কী (Key) লুপ চালানো হচ্ছে
+                Object.keys(matchedStudent.semesters).forEach(semKey => {
+                    const semData = matchedStudent.semesters[semKey];
+                    
+                    // কন্ডিশন: যদি "cgpa" এর ভেতর "gpa4: 2.67..." টাইপের লম্বা স্ট্রিং থাকে (Pass করা স্টুডেন্ট)
+                    if (semData.status.toLowerCase() === "passed" && semData.cgpa && semData.cgpa.includes("gpa")) {
+                        const parsedData = parseGpaString(semData.cgpa);
+                        
+                        // পার্স করা জিপিএ গুলোকে নতুন স্ট্রাকচারে পুশ করা
+                        Object.keys(parsedData).forEach(parsedSemKey => {
+                            finalSemestersData[parsedSemKey] = {
+                                status: "passed",
+                                cgpa: parsedData[parsedSemKey],
+                                referred: []
+                            };
+                        });
+                    } else {
+                        // অলরেডি সাজানো ডাটা (যেমন Referred বা ড্রপআউট কেস) সরাসরি কপি হবে
+                        finalSemestersData[semKey] = {
+                            status: semData.status,
+                            cgpa: semData.cgpa,
+                            referred: semData.referred || []
+                        };
+                    }
+                });
+
+                // ১st থেকে ক্রমিক অর্ডার মেইনটেইন করে লুপ ঘুরিয়ে UI জেনারেট করা
+                const orderedSemesters = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"];
+                
+                orderedSemesters.forEach(semKey => {
+                    if (finalSemestersData[semKey]) {
+                        const sData = finalSemestersData[semKey];
+                        const cardHtml = createSemesterCardHtml(semKey, sData.status, sData.cgpa, sData.referred);
+                        semesterContainer.innerHTML += cardHtml;
+                    }
+                });
+
+                // মোডাল শো করা
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modal.querySelector('.transform').classList.remove('scale-95');
+                    modal.querySelector('.transform').classList.add('scale-100');
+                }, 50);
+
+            }, 250); 
+        });
+
+        window.onload = bootstrapResultEngine;
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Portal | Firebase Auth</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-900 to-indigo-900 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-md w-full p-8">
+        <div class="flex justify-center space-x-4 mb-8 bg-gray-100 p-1 rounded-lg">
+            <button id="showLogin" class="w-1/2 py-2 text-center font-semibold rounded-md bg-blue-900 text-white shadow">Login</button>
+            <button id="showRegister" class="w-1/2 py-2 text-center font-semibold rounded-md text-gray-600">Register</button>
+        </div>
+
+        <form id="loginForm" class="space-y-5">
+            <h3 class="text-2xl font-bold text-gray-800">Welcome Back</h3>
+            <input type="email" id="loginEmail" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Email Address">
+            <input type="password" id="loginPassword" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Password">
+            <button type="submit" class="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition-all">Sign In</button>
+        </form>
+
+        <form id="registerForm" class="space-y-4 hidden">
+            <h3 class="text-2xl font-bold text-gray-800">Create Account</h3>
+            <input type="text" id="regName" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Full Name">
+            <input type="email" id="regEmail" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Email Address">
+            <select id="regRole" class="w-full px-4 py-2 border rounded-lg outline-none bg-white">
+                <option value="Student">Student</option>
+                <option value="Teacher">Teacher</option>
+            </select>
+            <input type="password" id="regPassword" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Password">
+            <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-all">Register Now</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCGEIxwHW-ixg7oGMznJC1epGsH5mhr2A0",
+            authDomain: "nit-website-bf3fc.firebaseapp.com",
+            projectId: "nit-website-bf3fc",
+            storageBucket: "nit-website-bf3fc.firebasestorage.app",
+            messagingSenderId: "205570230495",
+            appId: "1:205570230495:web:b0d77963fbf56fb6b6016a",
+            measurementId: "G-RNHJPR8Y54"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const showLoginBtn = document.getElementById('showLogin');
+        const showRegisterBtn = document.getElementById('showRegister');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        showRegisterBtn.addEventListener('click', () => {
+            loginForm.classList.add('hidden'); registerForm.classList.remove('hidden');
+            showRegisterBtn.className = "w-1/2 py-2 text-center font-semibold rounded-md bg-blue-900 text-white shadow";
+            showLoginBtn.className = "w-1/2 py-2 text-center font-semibold rounded-md text-gray-600";
+        });
+        showLoginBtn.addEventListener('click', () => {
+            registerForm.classList.add('hidden'); loginForm.classList.remove('hidden');
+            showLoginBtn.className = "w-1/2 py-2 text-center font-semibold rounded-md bg-blue-900 text-white shadow";
+            showRegisterBtn.className = "w-1/2 py-2 text-center font-semibold rounded-md text-gray-600";
+        });
+
+        // Registration Handle (No Alert)
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value.toLowerCase().trim();
+            const role = document.getElementById('regRole').value;
+            const password = document.getElementById('regPassword').value;
+
+            try {
+                const userRef = doc(db, "users", email);
+                const userSnap = await getDoc(userRef);
+
+                if(userSnap.exists()) {
+                    alert("User already exists with this email!");
+                    return;
+                }
+
+                await setDoc(userRef, { name, email, role, password, department: "", semester: "", photoUrl: "" });
+                
+                // পপ-আপ ছাড়া ডিরেক্ট ফর্ম ক্লিয়ার ও লগইন ট্যাবে ট্রান্সফার
+                registerForm.reset();
+                showLoginBtn.click();
+            } catch(err) {
+                console.error("Database Error: " + err.message);
+            }
+        });
+
+        // Login Handle (No Alert - Direct Redirect)
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.toLowerCase().trim();
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const userRef = doc(db, "users", email);
+                const userSnap = await getDoc(userRef);
+
+                if (userSnap.exists() && userSnap.data().password === password) {
+                    // সেশন কি ২টি এক করা হলো যাতে বাটন হাইড মিস না হয়
+                    localStorage.setItem('userSessionEmail', email);
+                    localStorage.setItem('currentUser', JSON.stringify({email: email}));
+                    
+                    // কোনো পপ-আপ ছাড়াই ডিরেক্ট হোমপেজে নিয়ে যাবে
+                    window.location.href = "index.html";
+                } else {
+                    alert("Invalid Email or Password!");
+                }
+            } catch(err) {
+                console.error("Error: " + err.message);
+            }
+        });
+    </script>
+</body>
+</html>
