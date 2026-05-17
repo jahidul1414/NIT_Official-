@@ -47,7 +47,7 @@
                     <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
                         <i class="fas fa-search-plus text-lg"></i>
                     </div>
-                    <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">BTEB Result Engine</h3>
+                    <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">BTEB Result Only For NIT Student </h3>
                 </div>
                 <p class="text-slate-500 text-xs">Verify semester results via official BTEB transcripts and archive database securely.</p>
             </div>
@@ -113,7 +113,7 @@
 
     <div id="resultModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 hidden">
         <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 relative max-h-[90vh] flex flex-col border border-white">
-             
+            
             <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 w-9 h-9 rounded-full flex items-center justify-center transition-all z-20">
                 <i class="fas fa-times text-sm"></i>
             </button>
@@ -122,7 +122,7 @@
                 <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
                 <div class="text-[10px] uppercase tracking-widest text-blue-300 font-extrabold mb-1">Official Student Archive</div>
                 <h4 id="modalHeaderRoll" class="text-3xl font-black tracking-tight mb-1"># 000000</h4>
-                 
+                
                 <div class="text-[11px] text-slate-300 uppercase tracking-wider font-semibold flex flex-wrap justify-center items-center gap-x-3 gap-y-1 mt-2">
                     <span class="flex items-center"><i class="fas fa-graduation-cap mr-1 text-yellow-400"></i> Diploma in Engineering</span>
                     <span>•</span>
@@ -138,7 +138,7 @@
             </div>
 
             <div id="modalSemesterContainer" class="p-6 overflow-y-auto space-y-5 flex-grow custom-scrollbar">
-                 </div>
+                </div>
         </div>
     </div>
 
@@ -157,12 +157,11 @@
 
         async function bootstrapResultEngine() {
             try {
-                // আপনার কপি করা গিটহাব রিলিজ ক্লাউড লিংকটি এখানে সঠিকভাবে সেট করা হয়েছে
-                const response = await fetch('https://github.com/jahidul1414/NIT_Official-/releases/download/v1.0/bteb_perfect_results.json');
+                const response = await fetch('bteb_perfect_results.json');
                 btebResultsArchive = await response.json();
                 console.log(`🎯 Engine Connected! ${btebResultsArchive.length} student records loaded.`);
             } catch (error) {
-                console.error("❌ Cloud JSON sync broken: ", error);
+                console.error("❌ Local JSON sync broken: ", error);
             }
         }
 
@@ -173,28 +172,32 @@
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
 
+        // কম্বাইন্ড টেক্সট জিপিএ স্ট্রিং পার্স করার হেল্পার ফাংশন
         function parseGpaString(gpaStr) {
             const parsedData = {};
             if (!gpaStr || typeof gpaStr !== 'string') return parsedData;
-             
+            
+            // "gpa4: 2.67, gpa3: 3.60" কে কমা দিয়ে ভাগ করে কুয়েরি করা
             const parts = gpaStr.split(',');
             parts.forEach(part => {
                 const match = part.match(/gpa(\d+)\s*:\s*([\d.]+)/i);
                 if (match) {
-                    const semNumber = match[1]; 
-                    const gpaVal = match[2];     
-                     
+                    const semNumber = match[1]; // e.g., "4"
+                    const gpaVal = match[2];     // e.g., "2.67"
+                    
+                    // সেমিস্টার সাফিক্স কনভার্ট (১ কে 1st, ৪ কে 4th)
                     let suffix = "th";
                     if (semNumber === "1") suffix = "st";
                     else if (semNumber === "2") suffix = "nd";
                     else if (semNumber === "3") suffix = "rd";
-                     
+                    
                     parsedData[`${semNumber}${suffix}`] = gpaVal;
                 }
             });
             return parsedData;
         }
 
+        // কার্ড রেন্ডারিং করার জন্য রিইউজেবল ফাংশন
         function createSemesterCardHtml(semesterName, status, cgpa, referredList) {
             let badgeClass = "";
             let badgeText = "";
@@ -210,13 +213,14 @@
                     </div>
                 `;
             } else {
+                // referred / dropout হ্যান্ডলিং
                 const isDropout = status.toLowerCase() === "dropout" || (referredList && referredList.length >= 4);
                 badgeText = isDropout ? "Dropout" : "Referred";
                 badgeClass = isDropout ? "bg-rose-100 text-rose-700 border-rose-200" : "bg-amber-100 text-amber-700 border-amber-200";
-                 
+                
                 const subsCount = referredList ? referredList.length : 0;
                 let subListHtml = "";
-                 
+                
                 if (referredList && subsCount > 0) {
                     referredList.forEach(sub => {
                         subListHtml += `
@@ -273,14 +277,18 @@
                 document.getElementById('modalInstituteName').innerText = matchedStudent.instituteName || "National Institute of Technology";
                 semesterContainer.innerHTML = "";
 
+                // ফাইনাল সাজানো সেমিস্টারের ডাটা রাখার অবজেক্ট
                 let finalSemestersData = {};
 
+                // ডাটাবেজের প্রতিটা কী (Key) লুপ চালানো হচ্ছে
                 Object.keys(matchedStudent.semesters).forEach(semKey => {
                     const semData = matchedStudent.semesters[semKey];
-                     
+                    
+                    // কন্ডিশন: যদি "cgpa" এর ভেতর "gpa4: 2.67..." টাইপের লম্বা স্ট্রিং থাকে (Pass করা স্টুডেন্ট)
                     if (semData.status.toLowerCase() === "passed" && semData.cgpa && semData.cgpa.includes("gpa")) {
                         const parsedData = parseGpaString(semData.cgpa);
-                         
+                        
+                        // পার্স করা জিপিএ গুলোকে নতুন স্ট্রাকচারে পুশ করা
                         Object.keys(parsedData).forEach(parsedSemKey => {
                             finalSemestersData[parsedSemKey] = {
                                 status: "passed",
@@ -289,6 +297,7 @@
                             };
                         });
                     } else {
+                        // অলরেডি সাজানো ডাটা (যেমন Referred বা ড্রপআউট কেস) সরাসরি কপি হবে
                         finalSemestersData[semKey] = {
                             status: semData.status,
                             cgpa: semData.cgpa,
@@ -297,8 +306,9 @@
                     }
                 });
 
+                // ১st থেকে ক্রমিক অর্ডার মেইনটেইন করে লুপ ঘুরিয়ে UI জেনারেট করা
                 const orderedSemesters = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"];
-                 
+                
                 orderedSemesters.forEach(semKey => {
                     if (finalSemestersData[semKey]) {
                         const sData = finalSemestersData[semKey];
@@ -307,6 +317,7 @@
                     }
                 });
 
+                // মোডাল শো করা
                 modal.classList.remove('hidden');
                 setTimeout(() => {
                     modal.classList.remove('opacity-0', 'pointer-events-none');
