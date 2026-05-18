@@ -5,33 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>College Portal | Firebase Auth</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gradient-to-r from-blue-900 to-indigo-900 min-h-screen flex items-center justify-center p-4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* ✨ কাস্টম শাইনিং অ্যানিমেশন */
+        @keyframes customShine {
+            100% { transform: skewX(-12deg) translateX(280%); }
+        }
+        .animate-shine-effect {
+            animation: customShine 0.85s ease-in-out;
+        }
 
-    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-md w-full p-8">
-        <div class="flex justify-center space-x-4 mb-8 bg-gray-100 p-1 rounded-lg">
-            <button id="showLogin" class="w-1/2 py-2 text-center font-semibold rounded-md bg-blue-900 text-white shadow">Login</button>
-            <button id="showRegister" class="w-1/2 py-2 text-center font-semibold rounded-md text-gray-600">Register</button>
+        /* 🌈 ক্লাসিক নিয়ন RGB গেমিং বর্ডার অ্যানিমেশন */
+        @keyframes rgbBorder {
+            0% { border-color: #ff0055; box-shadow: 0 0 15px rgba(255, 0, 85, 0.4); }
+            33% { border-color: #00ffcc; box-shadow: 0 0 15px rgba(0, 255, 204, 0.4); }
+            66% { border-color: #9900ff; box-shadow: 0 0 15px rgba(153, 0, 255, 0.4); }
+            100% { border-color: #ff0055; box-shadow: 0 0 15px rgba(255, 0, 85, 0.4); }
+        }
+        .rgb-glow-card {
+            border: 2px solid #ff0055;
+            animation: rgbBorder 6s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-tr from-slate-950 via-blue-950 to-slate-950 min-h-screen flex items-center justify-center p-4 antialiased relative overflow-x-hidden" style="background-image: linear-gradient(to top right, rgba(15,23,42,0.95), rgba(23,37,84,0.9)), url('pageBg.jpg'); background-blend-mode: multiply; background-size: cover;">
+
+    <div class="rgb-glow-card flex flex-col md:flex-row bg-slate-900/90 backdrop-blur-xl rounded-3xl overflow-hidden max-w-4xl w-full transition-all duration-300">
+        
+        <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-blue-900 to-indigo-950 p-12 flex-col justify-between relative overflow-hidden border-r border-white/10">
+            <div class="absolute -top-10 -left-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-emerald-600/20 rounded-full blur-3xl"></div>
+            
+            <div class="relative z-10">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl text-yellow-400 text-3xl mb-6 shadow-inner">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h1 class="text-3xl font-black text-white tracking-tight uppercase leading-tight">National Institute Of Technology</h1>
+                <p class="text-blue-200/70 text-sm mt-3 font-medium tracking-wide">Shaping the Future with Technology & Skills</p>
+            </div>
+            
+            <div class="relative z-10 border-t border-white/10 pt-6">
+                <p class="text-xs text-blue-300/50 font-bold uppercase tracking-widest">Portal Version</p>
+                <p class="text-sm text-yellow-400 font-semibold mt-1">v2.0 Premium UI</p>
+            </div>
         </div>
 
-        <form id="loginForm" class="space-y-5">
-            <h3 class="text-2xl font-bold text-gray-800">Welcome Back</h3>
-            <input type="email" id="loginEmail" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Email Address">
-            <input type="password" id="loginPassword" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Password">
-            <button type="submit" class="w-full bg-blue-900 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition-all">Sign In</button>
-        </form>
+        <div class="w-full md:w-1/2 p-8 md:p-10 flex flex-col justify-center bg-white">
+            
+            <div class="text-center mb-6 md:hidden">
+                <h2 class="text-2xl font-black text-blue-950 tracking-tight uppercase">NIT Portal</h2>
+            </div>
 
-        <form id="registerForm" class="space-y-4 hidden">
-            <h3 class="text-2xl font-bold text-gray-800">Create Account</h3>
-            <input type="text" id="regName" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Full Name">
-            <input type="email" id="regEmail" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Email Address">
-            <select id="regRole" class="w-full px-4 py-2 border rounded-lg outline-none bg-white">
-                <option value="Student">Student</option>
-                <option value="Teacher">Teacher</option>
-            </select>
-            <input type="password" id="regPassword" required class="w-full px-4 py-2 border rounded-lg outline-none" placeholder="Password">
-            <button type="submit" class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-all">Register Now</button>
-        </form>
+            <div class="flex justify-center space-x-1 mb-8 bg-gray-100 p-1 rounded-2xl border border-gray-200/50">
+                <button id="showLogin" class="w-1/3 py-2.5 text-center text-xs font-bold rounded-xl bg-blue-900 text-white shadow-md shadow-blue-900/20 transition-all duration-300">
+                    <i class="fas fa-sign-in-alt mr-1"></i>Login
+                </button>
+                <button id="showRegister" class="w-1/3 py-2.5 text-center text-xs font-semibold rounded-xl text-gray-500 hover:text-blue-900 transition-all duration-300">
+                    <i class="fas fa-user-plus mr-1"></i>Register
+                </button>
+                <button id="showAdmin" class="w-1/3 py-2.5 text-center text-xs font-semibold rounded-xl text-gray-500 hover:text-amber-600 transition-all duration-300">
+                    <i class="fas fa-user-shield mr-1"></i>Admin
+                </button>
+            </div>
+
+            <form id="loginForm" class="space-y-5 transition-all duration-300">
+                <div>
+                    <div class="flex justify-between items-center">
+                        <h3 id="formTitle" class="text-2xl font-extrabold text-gray-800 tracking-tight">Welcome Back</h3>
+                        <span id="formBadge" class="text-[10px] bg-blue-50 text-blue-700 font-bold px-2 py-0.5 rounded border border-blue-200">User Portal</span>
+                    </div>
+                    <p id="formSubtitle" class="text-xs text-gray-400 mt-1">Please sign in to access your dashboard.</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="relative group">
+                        <span id="emailIcon" class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 group-focus-within:text-blue-600 transition-colors">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input type="email" id="loginEmail" required class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-100 transition-all font-medium text-gray-700 text-sm" placeholder="Email Address">
+                    </div>
+
+                    <div class="relative group">
+                        <span id="passwordIcon" class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 group-focus-within:text-blue-600 transition-colors">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" id="loginPassword" required class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-100 transition-all font-medium text-gray-700 text-sm" placeholder="Password">
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="relative overflow-hidden w-full bg-gradient-to-r from-blue-900 to-indigo-900 text-white py-3.5 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-blue-900/30 hover:shadow-xl hover:shadow-blue-900/40 transition-all duration-300 group">
+                    <div class="absolute inset-0 w-1/2 h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine-effect"></div>
+                    <span id="submitBtnText" class="inline-flex items-center justify-center">
+                        Sign In Now <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>
+                    </span>
+                </button>
+            </form>
+
+            <form id="registerForm" class="space-y-4 hidden transition-all duration-300">
+                <div>
+                    <h3 class="text-2xl font-extrabold text-gray-800 tracking-tight">Create Account</h3>
+                    <p class="text-xs text-gray-400 mt-1">Join NIT portal to manage your profile.</p>
+                </div>
+                
+                <div class="space-y-3.5">
+                    <div class="relative group">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <input type="text" id="regName" required class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white focus:ring-4 focus:ring-emerald-100 transition-all font-medium text-gray-700 text-sm" placeholder="Full Name">
+                    </div>
+
+                    <div class="relative group">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input type="email" id="regEmail" required class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white focus:ring-4 focus:ring-emerald-100 transition-all font-medium text-gray-700 text-sm" placeholder="Email Address">
+                    </div>
+
+                    <div class="relative group">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 group-focus-within:text-emerald-600 transition-colors z-10">
+                            <i class="fas fa-users-cog"></i>
+                        </span>
+                        <select id="regRole" class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white focus:ring-4 focus:ring-emerald-100 transition-all font-semibold text-gray-600 text-sm appearance-none relative">
+                            <option value="Student">Student</option>
+                            <option value="Teacher">Teacher</option>
+                        </select>
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 pointer-events-none">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </span>
+                    </div>
+
+                    <div class="relative group">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 group-focus-within:text-emerald-600 transition-colors">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input type="password" id="regPassword" required class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white focus:ring-4 focus:ring-emerald-100 transition-all font-medium text-gray-700 text-sm" placeholder="Password">
+                    </div>
+                </div>
+
+                <button type="submit" class="relative overflow-hidden w-full bg-gradient-to-r from-emerald-600 to-green-600 text-white py-3.5 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-emerald-600/20 hover:shadow-xl hover:shadow-emerald-600/30 transition-all duration-300 group">
+                    <div class="absolute inset-0 w-1/2 h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-shine-effect"></div>
+                    <span class="inline-flex items-center justify-center">
+                        Register Now <i class="fas fa-user-check ml-2 text-xs"></i>
+                    </span>
+                </button>
+            </form>
+
+            <div class="mt-6 pt-5 border-t border-gray-100 text-center">
+                <a href="index.html" class="inline-flex items-center justify-center gap-2 text-xs font-bold text-blue-900/70 hover:text-blue-900 bg-gray-50 hover:bg-blue-50 px-5 py-2.5 rounded-xl border border-dashed border-gray-300 hover:border-blue-300 transition-all duration-200">
+                    <i class="fas fa-eye"></i> Continue Without Login <i class="fas fa-angle-right"></i>
+                </a>
+            </div>
+
+        </div>
     </div>
 
     <script type="module">
@@ -53,27 +180,84 @@
 
         const showLoginBtn = document.getElementById('showLogin');
         const showRegisterBtn = document.getElementById('showRegister');
+        const showAdminBtn = document.getElementById('showAdmin');
+        
         const loginForm = document.getElementById('loginForm');
         const registerForm = document.getElementById('registerForm');
+        
+        // Form UI Elements for Dynamic Switching
+        const formTitle = document.getElementById('formTitle');
+        const formBadge = document.getElementById('formBadge');
+        const formSubtitle = document.getElementById('formSubtitle');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitBtnText = document.getElementById('submitBtnText');
+
+        // FIXED SECURITY SYSTEM CREDENTIALS
+        const FIXED_ADMIN_EMAIL = "admin@nit.edu.bd";
+        const FIXED_ADMIN_PASS = "nitadmin2026";
+        
+        let currentMode = "user"; // 'user' or 'admin'
+
+        // 🟢 TAB SWITCHING LOGIC
+        showLoginBtn.addEventListener('click', () => {
+            currentMode = "user";
+            registerForm.classList.add('hidden'); 
+            loginForm.classList.remove('hidden');
+            loginForm.reset();
+            
+            // UI States Update
+            formTitle.innerText = "Welcome Back";
+            formSubtitle.innerText = "Please sign in to access your dashboard.";
+            formBadge.className = "text-[10px] bg-blue-50 text-blue-700 font-bold px-2 py-0.5 rounded border border-blue-200";
+            formBadge.innerText = "User Portal";
+            submitBtn.className = "relative overflow-hidden w-full bg-gradient-to-r from-blue-900 to-indigo-900 text-white py-3.5 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-blue-900/30 hover:shadow-xl hover:shadow-blue-900/40 transition-all duration-300 group";
+            submitBtnText.innerHTML = 'Sign In Now <i class="fas fa-arrow-right ml-2 text-xs transition-transform group-hover:translate-x-1"></i>';
+            
+            showLoginBtn.className = "w-1/3 py-2.5 text-center text-xs font-bold rounded-xl bg-blue-900 text-white shadow-md shadow-blue-900/20 transition-all duration-300";
+            showRegisterBtn.className = "w-1/3 py-2.5 text-center text-xs font-semibold rounded-xl text-gray-500 hover:text-blue-900 transition-all duration-300";
+            showAdminBtn.className = "w-1/3 py-2.5 text-center text-xs font-semibold rounded-xl text-gray-500 hover:text-amber-600 transition-all duration-300";
+        });
 
         showRegisterBtn.addEventListener('click', () => {
-            loginForm.classList.add('hidden'); registerForm.classList.remove('hidden');
-            showRegisterBtn.className = "w-1/2 py-2 text-center font-semibold rounded-md bg-blue-900 text-white shadow";
-            showLoginBtn.className = "w-1/2 py-2 text-center font-semibold rounded-md text-gray-600";
-        });
-        showLoginBtn.addEventListener('click', () => {
-            registerForm.classList.add('hidden'); loginForm.classList.remove('hidden');
-            showLoginBtn.className = "w-1/2 py-2 text-center font-semibold rounded-md bg-blue-900 text-white shadow";
-            showRegisterBtn.className = "w-1/2 py-2 text-center font-semibold rounded-md text-gray-600";
+            loginForm.classList.add('hidden'); 
+            registerForm.classList.remove('hidden');
+            
+            showRegisterBtn.className = "w-1/3 py-2.5 text-center text-xs font-bold rounded-xl bg-blue-900 text-white shadow-md shadow-blue-900/20 transition-all duration-300";
+            showLoginBtn.className = "w-1/3 py-2.5 text-center text-xs font-semibold rounded-xl text-gray-500 hover:text-blue-900 transition-all duration-300";
+            showAdminBtn.className = "w-1/3 py-2.5 text-center text-xs font-semibold rounded-xl text-gray-500 hover:text-amber-600 transition-all duration-300";
         });
 
-        // Registration Handle (No Alert)
+        showAdminBtn.addEventListener('click', () => {
+            currentMode = "admin";
+            registerForm.classList.add('hidden'); 
+            loginForm.classList.remove('hidden');
+            loginForm.reset(); // অ্যাডমিনের জন্য একদম খালি ইনপুট ফিল্ড আসবে
+            
+            // UI States Update for Admin Theme (Amber/Gold Theme)
+            formTitle.innerText = "Secure Admin Gateway";
+            formSubtitle.innerText = "Provide administrative master key codes to proceed.";
+            formBadge.className = "text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded border border-amber-200";
+            formBadge.innerText = "Root Terminal";
+            submitBtn.className = "relative overflow-hidden w-full bg-gradient-to-r from-amber-600 to-amber-700 text-white py-3.5 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-amber-600/20 hover:shadow-xl hover:shadow-amber-600/30 transition-all duration-300 group";
+            submitBtnText.innerHTML = 'Verify Security Credentials <i class="fas fa-shield-alt ml-2 text-xs"></i>';
+
+            showAdminBtn.className = "w-1/3 py-2.5 text-center text-xs font-bold rounded-xl bg-amber-600 text-white shadow-md shadow-amber-600/20 transition-all duration-300";
+            showLoginBtn.className = "w-1/3 py-2.5 text-center text-xs font-semibold rounded-xl text-gray-500 hover:text-blue-900 transition-all duration-300";
+            showRegisterBtn.className = "w-1/3 py-2.5 text-center text-xs font-semibold rounded-xl text-gray-500 hover:text-blue-900 transition-all duration-300";
+        });
+
+        // 📝 Registration Handle
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('regName').value;
             const email = document.getElementById('regEmail').value.toLowerCase().trim();
             const role = document.getElementById('regRole').value;
             const password = document.getElementById('regPassword').value;
+
+            if(email === FIXED_ADMIN_EMAIL) {
+                alert("Restricted Action: Administrative routing spaces can not be overridden.");
+                return;
+            }
 
             try {
                 const userRef = doc(db, "users", email);
@@ -86,7 +270,6 @@
 
                 await setDoc(userRef, { name, email, role, password, department: "", semester: "", photoUrl: "" });
                 
-                // পপ-আপ ছাড়া ডিরেক্ট ফর্ম ক্লিয়ার ও লগইন ট্যাবে ট্রান্সফার
                 registerForm.reset();
                 showLoginBtn.click();
             } catch(err) {
@@ -94,22 +277,32 @@
             }
         });
 
-        // Login Handle (No Alert - Direct Redirect)
+        // 🔑 Login/Admin Handle (এখানে ম্যানুয়াল ইনপুট নিখুঁতভাবে ভেরিফাই হবে)
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.toLowerCase().trim();
             const password = document.getElementById('loginPassword').value;
 
+            // যদি বর্তমান মোড "admin" সিলেক্ট করা থাকে অথবা ইমেইলটি অ্যাডমিন ইমেইল হয়
+            if (currentMode === "admin" || email === FIXED_ADMIN_EMAIL) {
+                if (email === FIXED_ADMIN_EMAIL && password === FIXED_ADMIN_PASS) {
+                    localStorage.setItem('userSessionEmail', email);
+                    localStorage.setItem('currentUser', JSON.stringify({ email: email, role: "Admin" }));
+                    window.location.href = "admin.html"; // ম্যাচ করলেই কেবল পেজ ওপেন হবে
+                } else {
+                    alert("Access Denied: Invalid Administrative Credentials!");
+                }
+                return;
+            }
+
+            // সাধারণ ইউজারদের জন্য ফায়ারবেস অথেন্টিকেশন
             try {
                 const userRef = doc(db, "users", email);
                 const userSnap = await getDoc(userRef);
 
                 if (userSnap.exists() && userSnap.data().password === password) {
-                    // সেশন কি ২টি এক করা হলো যাতে বাটন হাইড মিস না হয়
                     localStorage.setItem('userSessionEmail', email);
                     localStorage.setItem('currentUser', JSON.stringify({email: email}));
-                    
-                    // কোনো পপ-আপ ছাড়াই ডিরেক্ট হোমপেজে নিয়ে যাবে
                     window.location.href = "index.html";
                 } else {
                     alert("Invalid Email or Password!");

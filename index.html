@@ -1,142 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
     <title>College Management System | Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* নোটিশ বোর্ডের কাস্টম নিচ থেকে ওপরের স্ক্রলিং অ্যানিমেশন */
-        @keyframes scrollUp {
-            0% { transform: translateY(100%); }
-            100% { transform: translateY(-100%); }
+        /* নোটিশ বোর্ডের হাইড স্ক্রলবার */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* ✨ কাস্টম লাইট শাইনিং অ্যানিমেশন ইফেক্ট */
+        @keyframes customShine {
+            100% { transform: skewX(-12deg) translateX(280%); }
         }
-        .scrolling-content {
-            animation: scrollUp 15s linear infinite;
-        }
-        /* মাউস রাখলে স্ক্রলিং পজ বা থমকে যাবে */
-        .scrolling-content:hover {
-            animation-play-state: paused;
+        .animate-shine-effect {
+            animation: customShine 0.85s ease-in-out;
         }
     </style>
 </head>
 <body class="bg-gray-50">
 
-    <nav class="bg-blue-900 text-white p-4 shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-tight">National Institute Of Technology(NIT)</h1>
-            
-            <div class="flex items-center space-x-6 font-medium">
-                <ul class="hidden md:flex space-x-6 items-center">
-                    <li><a href="index.html" class="hover:text-yellow-400">Home</a></li>
-                    <li><a href="teachers.html" class="hover:text-yellow-400">Teachers</a></li>
-                    <li><a href="students.html" class="hover:text-yellow-400">Students</a></li>
-                    <li id="navLoginContainer"><a href="login.html" id="navLoginBtn" class="bg-yellow-500 text-blue-950 px-4 py-1.5 rounded-lg hover:bg-yellow-600 transition-all font-bold">Login</a></li>
-                </ul>
+<nav class="bg-blue-900 text-white p-4 shadow-lg sticky top-0 z-50">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-lg sm:text-2xl font-bold tracking-tight max-w-[70%] sm:max-w-none truncate sm:whitespace-normal">
+            National Institute Of Technology(NIT)
+        </h1>
+        
+        <div class="flex items-center space-x-4 md:space-x-6 font-medium">
+            <ul class="hidden md:flex space-x-6 items-center">
+                <li><a href="index.html" class="hover:text-yellow-400 transition-colors">Home</a></li>
+                <li><a href="teachers.html" class="hover:text-yellow-400 transition-colors">Teachers</a></li>
+                <li><a href="students.html" class="hover:text-yellow-400 transition-colors">Students</a></li>
+                <li id="navLoginContainer"><a href="login.html" id="navLoginBtn" class="bg-yellow-500 text-blue-950 px-4 py-1.5 rounded-lg hover:bg-yellow-600 transition-all font-bold">Login</a></li>
+            </ul>
 
-                <div class="relative">
-                    <button id="profileBtn" class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-700 hover:bg-blue-600 border-2 border-yellow-400 overflow-hidden focus:outline-none transition-all">
-                        <img id="navProfileDisplay" src="" class="w-full h-full object-cover hidden" alt="User">
-                        <i id="navProfileIcon" class="fas fa-user text-lg text-white"></i>
-                    </button>
-                    
-                    <div id="profileDropdown" class="hidden absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-2xl border border-gray-100 py-4 text-gray-800 z-50">
-                        <div class="px-4 pb-3 border-b border-gray-100 flex items-center space-x-3">
-                            <img id="dropdownAvatar" src="https://via.placeholder.com/150" class="w-12 h-12 rounded-full object-cover border-2 border-blue-900" alt="Avatar">
-                            <div>
-                                <p class="text-xs text-gray-400 font-bold uppercase">Logged In As</p>
-                                <p id="userRole" class="text-xs bg-yellow-400 text-blue-950 font-bold px-2 py-0.5 rounded inline-block mt-0.5">Guest</p>
-                            </div>
-                        </div>
-
-                        <div class="px-4 py-3 space-y-3 bg-gray-50 my-2 text-sm">
-                            <div>
-                                <label class="text-xs font-bold text-gray-400 uppercase">Name</label>
-                                <input type="text" id="profileName" disabled class="w-full bg-transparent font-bold text-gray-800 border-b border-transparent focus:border-blue-500 outline-none py-0.5 px-1 rounded transition-all">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-400 uppercase">Department</label>
-                                <input type="text" id="profileDept" disabled placeholder="Not set yet" class="w-full bg-transparent font-semibold text-gray-700 border-b border-transparent focus:border-blue-500 outline-none py-0.5 px-1 rounded transition-all">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-400 uppercase">Semester</label>
-                                <input type="text" id="profileSemester" disabled placeholder="Not set yet" class="w-full bg-transparent font-semibold text-gray-700 border-b border-transparent focus:border-blue-500 outline-none py-0.5 px-1 rounded transition-all">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-400 uppercase">Photo URL</label>
-                                <input type="text" id="profileImgUrl" disabled placeholder="Paste Image Link" class="w-full bg-transparent text-xs text-blue-600 border-b border-transparent focus:border-blue-500 outline-none py-0.5 px-1 rounded transition-all">
-                            </div>
-                        </div>
-
-                        <div class="px-4 pt-2 space-y-2">
-                            <button id="editSaveBtn" class="w-full text-center font-semibold text-sm py-2 px-4 rounded-lg bg-blue-900 text-white hover:bg-blue-800 transition-all">
-                                <i class="fas fa-edit mr-1"></i> Edit Profile
-                            </button>
-                            <button id="authBtn" class="w-full text-center font-semibold text-sm py-2 px-4 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all">Log Out</button>
+            <div class="relative">
+                <button id="profileBtn" class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-700 hover:bg-blue-600 border-2 border-yellow-400 overflow-hidden focus:outline-none transition-all">
+                    <img id="navProfileDisplay" src="" class="w-full h-full object-cover hidden" alt="User">
+                    <i id="navProfileIcon" class="fas fa-user text-lg text-white"></i>
+                </button>
+                
+                <div id="profileDropdown" class="hidden absolute right-0 mt-3 w-72 bg-white rounded-xl shadow-2xl border border-gray-100 py-4 text-gray-800 z-50">
+                    <div class="px-4 pb-3 border-b border-gray-100 flex items-center space-x-3">
+                        <img id="dropdownAvatar" src="https://via.placeholder.com/150" class="w-12 h-12 rounded-full object-cover border-2 border-blue-900" alt="Avatar">
+                        <div>
+                            <p class="text-xs text-gray-400 font-bold uppercase">Logged In As</p>
+                            <p id="userRole" class="text-xs bg-yellow-400 text-blue-950 font-bold px-2 py-0.5 rounded inline-block mt-0.5">Guest</p>
                         </div>
                     </div>
+
+                    <div class="px-4 py-3 space-y-3 bg-gray-50 my-2 text-sm">
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase">Name</p>
+                            <input type="text" id="profileName" disabled class="w-full bg-transparent font-bold text-gray-800 border-b border-transparent focus:border-blue-500 outline-none py-0.5 px-1 rounded transition-all">
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase">Department</p>
+                            <input type="text" id="profileDept" disabled placeholder="Not set yet" class="w-full bg-transparent font-semibold text-gray-700 border-b border-transparent focus:border-blue-500 outline-none py-0.5 px-1 rounded transition-all">
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase">Semester</p>
+                            <input type="text" id="profileSemester" disabled placeholder="Not set yet" class="w-full bg-transparent font-semibold text-gray-700 border-b border-transparent focus:border-blue-500 outline-none py-0.5 px-1 rounded transition-all">
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase">Photo URL</p>
+                            <input type="text" id="profileImgUrl" disabled placeholder="Paste Image Link" class="w-full bg-transparent text-xs text-blue-600 border-b border-transparent focus:border-blue-500 outline-none py-0.5 px-1 rounded transition-all">
+                        </div>
+                    </div>
+
+                    <div class="px-4 pt-2 space-y-2">
+                        <button id="editSaveBtn" class="w-full text-center font-semibold text-sm py-2 px-4 rounded-lg bg-blue-900 text-white hover:bg-blue-800 transition-all">
+                            <i class="fas fa-edit mr-1"></i> Edit Profile
+                        </button>
+                        <button id="authBtn" class="w-full text-center font-semibold text-sm py-2 px-4 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition-all">Log Out</button>
+                    </div>
                 </div>
-
             </div>
-        </div>
-    </nav>
 
-   <div class="container mx-auto mt-6 px-4">
-        <div class="relative w-full aspect-video md:h-[450px] overflow-hidden bg-gray-950 rounded-2xl shadow-xl">
-            <div id="slider" class="flex transition-transform duration-700 ease-in-out w-full h-full">
+            <button id="mobileMenuBtn" class="md:hidden flex items-center justify-center p-2 rounded-md hover:bg-blue-800 focus:outline-none transition-all">
+                <i class="fas fa-bars text-xl text-white"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="mobileMenuDropdown" class="hidden md:hidden mt-3 bg-blue-950 rounded-xl p-3 border border-blue-800 shadow-xl transition-all">
+        <ul class="flex flex-col space-y-2 font-medium">
+            <li><a href="index.html" class="block py-2 px-4 rounded-lg hover:bg-blue-800 transition-colors">Home</a></li>
+            <li><a href="teachers.html" class="block py-2 px-4 rounded-lg hover:bg-blue-800 transition-colors">Teachers</a></li>
+            <li><a href="students.html" class="block py-2 px-4 rounded-lg hover:bg-blue-800 transition-colors">Students</a></li>
+            <li id="mobileNavLoginContainer" class="pt-2">
+                <a href="login.html" id="mobileNavLoginBtn" class="block text-center bg-yellow-500 text-blue-950 py-2 rounded-lg hover:bg-yellow-600 font-bold transition-all">Login</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuDropdown = document.getElementById('mobileMenuDropdown');
+
+        if (mobileMenuBtn && mobileMenuDropdown) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileMenuDropdown.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!mobileMenuDropdown.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    mobileMenuDropdown.classList.add('hidden');
+                }
+            });
+        }
+    });
+</script>
+
+<div class="container mx-auto mt-6 px-4">
+    <div class="relative w-full aspect-video md:h-[450px] overflow-hidden bg-gray-950 rounded-2xl shadow-xl">
+        <div id="slider" class="flex transition-transform duration-700 ease-in-out w-full h-full">
             <img src="images/banner1.png" class="min-w-full h-[450px] object-cover" alt="industry visit">
             <img src="images/banner2.png" class="min-w-full h-[450px] object-cover" alt="Prize Giving">
             <img src="images/banner3.png" class="min-w-full h-[450px] object-cover" alt="Spacial Class">
             <img src="images/banner4.png" class="min-w-full h-[450px] object-cover" alt="Language Day">
-            </div>
-            
-            <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center px-6">
-                <h2 class="text-white text-2xl md:text-5xl font-extrabold uppercase tracking-wide drop-shadow-2xl">
-                    WELCOME TO NIT INSTITUTE
-                </h2>
-                <p class="text-yellow-400 text-xs md:text-lg mt-2 font-medium tracking-widest uppercase drop-shadow">
-                    Shaping the Future with Technology & Skills
-                </p>
-            </div>
         </div>
-    </div>
-
-    <div class="container mx-auto my-12 px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
         
-        <div class="md:col-span-1 bg-white border-t-4 border-blue-900 shadow-xl rounded-xl overflow-hidden flex flex-col h-80">
-            <div class="bg-blue-900 text-white p-4 flex items-center shrink-0">
-                <i class="fas fa-bullhorn mr-2 text-xl text-yellow-400"></i>
-                <h3 class="font-bold uppercase tracking-wider">Latest Notices</h3>
-            </div>
-            <div class="p-4 relative flex-grow overflow-hidden bg-gray-50 select-none">
-                <div class="scrolling-content space-y-4 absolute left-4 right-4 cursor-pointer">
-                    <p class="text-blue-900 font-semibold border-b pb-3">📅 Semester Exam will start from 15th June.</p>
-                    <p class="text-blue-900 font-semibold border-b pb-3">📅 Last date of Tuition Fee submission: 30th May.</p>
-                    <p class="text-blue-900 font-semibold border-b pb-3">📅 New Admission open for 2026 session.</p>
-                    <p class="text-blue-900 font-semibold border-b pb-3">📅 Basic Python & Web Development workshop next Friday.</p>
-                </div>
-            </div>
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center text-center px-6">
+            <h2 class="text-white text-2xl md:text-5xl font-extrabold uppercase tracking-wide drop-shadow-2xl">
+                WELCOME TO NIT INSTITUTE
+            </h2>
+            <p class="text-yellow-400 text-xs md:text-lg mt-2 font-medium tracking-widest uppercase drop-shadow">
+                Shaping the Future with Technology & Skills
+            </p>
         </div>
+    </div>
+</div>
 
-        <div class="md:col-span-2 bg-white p-8 shadow-xl rounded-xl h-80 flex flex-col justify-between">
-            <div>
-                <h3 class="text-3xl font-bold text-gray-800 mb-4 border-b-4 border-yellow-500 inline-block pb-1">About Our Institute</h3>
-                <p class="text-gray-600 leading-relaxed text-lg">
-                    Our college is committed to providing high-quality technical education to build a skilled workforce. 
-                    With modern labs and expert faculty, we ensure a bright future for our students.
-                </p>
+<div class="container mx-auto my-12 px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+    
+    <div class="md:col-span-1 bg-white border-t-4 border-blue-900 shadow-xl rounded-xl overflow-hidden flex flex-col h-80">
+        <div class="bg-blue-900 text-white p-4 flex items-center justify-between shrink-0">
+            <div class="flex items-center">
+                <i class="fas fa-bullhorn mr-2 text-xl text-yellow-400"></i>
+                <h3 class="font-bold uppercase tracking-wider text-sm sm:text-base">Latest Notices</h3>
             </div>
-            <div>
-                <button class="mt-4 bg-blue-900 text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-blue-800 transition shadow-md">Read More</button>
+            <button id="seeAllNoticesBtn" class="bg-yellow-500 hover:bg-yellow-600 text-blue-950 px-2.5 py-1 rounded text-xs font-extrabold tracking-wide transition-all shadow-md">See All</button>
+        </div>
+        
+        <div id="noticeBoardWrapper" class="p-4 relative flex-grow overflow-y-auto no-scrollbar bg-gray-50 select-none cursor-grab active:cursor-grabbing">
+            <div id="liveNoticeContainer" class="space-y-3 transition-all duration-300">
+                <p class="text-slate-400 text-xs font-semibold py-6 text-center animate-pulse">Syncing live bulletins from NIT database...</p>
             </div>
         </div>
     </div>
 
-    <footer class="bg-gray-900 text-gray-400 py-8 text-center border-t border-gray-800">
-        <p class="text-sm">&copy; 2026 National Institue of Technology. All rights reserved.</p>
-    </footer>
+    <div class="md:col-span-2 bg-white p-6 shadow-xl rounded-xl h-80 flex flex-col justify-start">
+        <div class="w-full mb-4">
+            <h3 class="text-2xl font-bold text-gray-800 border-b-4 border-yellow-500 inline-block pb-1">Our Services</h3>
+        </div>
+        
+        <div class="flex flex-row gap-4 w-full mt-2">
+            <a href="result.html" class="relative overflow-hidden flex items-center justify-center gap-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-extrabold py-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:shadow-[0_0_25px_rgba(37,99,235,0.6)] text-sm md:text-base group w-1/2">
+                <div class="absolute inset-0 w-1/2 h-full bg-white/30 transform -skew-x-12 -translate-x-full group-hover:animate-shine-effect"></div>
+                <i class="fas fa-poll text-xl group-hover:scale-110 transition-transform"></i>
+                <span class="tracking-wide whitespace-nowrap">Result Check</span>
+            </a>
 
-    <script type="module" src="script.js"></script>
+            <a href="payment.html" class="relative overflow-hidden flex items-center justify-center gap-2.5 bg-gradient-to-r from-emerald-600 to-green-600 text-white font-extrabold py-4 rounded-xl hover:from-emerald-700 hover:to-green-700 transition-all duration-300 shadow-[0_0_15px_rgba(16,185,129,0.4)] hover:shadow-[0_0_25px_rgba(16,185,129,0.6)] text-sm md:text-base group w-1/2">
+                <div class="absolute inset-0 w-1/2 h-full bg-white/30 transform -skew-x-12 -translate-x-full group-hover:animate-shine-effect"></div>
+                <i class="fas fa-credit-card text-xl group-hover:scale-110 transition-transform"></i>
+                <span class="tracking-wide whitespace-nowrap">Payment Fees</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="allNoticesModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl border border-gray-100 flex flex-col max-h-[85vh]">
+        <div class="bg-blue-900 text-white p-4 flex items-center justify-between rounded-t-2xl">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-layer-group text-yellow-400 text-lg"></i>
+                <h4 class="font-bold tracking-wide text-sm sm:text-base">All Published Institutional Bulletins</h4>
+            </div>
+            <button id="closeModalBtn" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all focus:outline-none"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="modalNoticeList" class="p-5 overflow-y-auto space-y-3 bg-gray-50 flex-grow no-scrollbar"></div>
+        <div class="bg-gray-100 px-5 py-3 text-center text-[10px] font-bold text-gray-400 rounded-b-2xl uppercase tracking-widest border-t border-gray-200">National Institute Of Technology Ledger Systems</div>
+    </div>
+</div>
+
+<div id="noticeDetailsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-[110] hidden items-center justify-center p-4">
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl flex flex-col">
+        <div class="bg-amber-500 text-blue-950 p-4 flex items-center justify-between rounded-t-2xl">
+            <h4 class="font-bold text-sm sm:text-base"><i class="fas fa-info-circle mr-2"></i>Notice Details</h4>
+            <button id="closeDetailsModalBtn" class="w-8 h-8 rounded-full bg-blue-950/10 hover:bg-blue-950/20 text-blue-950 flex items-center justify-center transition-all"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="p-6 bg-white rounded-b-2xl">
+            <span id="detailNoticeDate" class="text-xs font-bold text-blue-900 bg-blue-50 px-2 py-0.5 rounded inline-block mb-2"></span>
+            <h5 id="detailNoticeTitle" class="font-extrabold text-slate-800 text-base sm:text-lg mb-3"></h5>
+            <p id="detailNoticeInfo" class="text-slate-600 text-xs sm:text-sm whitespace-pre-line bg-gray-50 p-4 rounded-lg border border-dashed border-gray-200 max-h-60 overflow-y-auto no-scrollbar"></p>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-gray-900 text-gray-400 py-8 text-center border-t border-gray-800">
+    <p class="text-sm">&copy; 2026 National Institute of Technology. All rights reserved.</p>
+</footer>
+
+<script type="module" src="script.js"></script>
+
+<script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCGEIxwHW-ixg7oGMznJC1epGsH5mhr2A0",
+        authDomain: "nit-website-bf3fc.firebaseapp.com",
+        projectId: "nit-website-bf3fc",
+        storageBucket: "nit-website-bf3fc.firebasestorage.app",
+        messagingSenderId: "205570230495",
+        appId: "1:205570230495:web:b0d77963fbf56fb6b6016a"
+    };
+
+    const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+    const db = getFirestore(app);
+
+    const liveNoticeContainer = document.getElementById('liveNoticeContainer');
+    const modalNoticeList = document.getElementById('modalNoticeList');
+    const noticeBoardWrapper = document.getElementById('noticeBoardWrapper');
+    
+    const noticeDetailsModal = document.getElementById('noticeDetailsModal');
+    const closeDetailsModalBtn = document.getElementById('closeDetailsModalBtn');
+    const detailNoticeDate = document.getElementById('detailNoticeDate');
+    const detailNoticeTitle = document.getElementById('detailNoticeTitle');
+    const detailNoticeInfo = document.getElementById('detailNoticeInfo');
+
+    let scrollId = null;
+    let isHovered = false;
+    let currentScrollTop = 0;
+
+    window.showNoticeDetails = function(title, info, date) {
+        detailNoticeTitle.innerText = decodeURIComponent(title);
+        detailNoticeInfo.innerText = decodeURIComponent(info) || "No description provided.";
+        detailNoticeDate.innerHTML = `<i class="far fa-clock text-amber-500"></i> ${decodeURIComponent(date)}`;
+        noticeDetailsModal.classList.remove('hidden');
+        noticeDetailsModal.classList.add('flex');
+    };
+
+    onSnapshot(collection(db, "notices"), (snapshot) => {
+        if(snapshot.empty) {
+            liveNoticeContainer.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">No active notices found.</p>`;
+            modalNoticeList.innerHTML = `<p class="text-xs text-slate-500 py-4 text-center">No active notices found.</p>`;
+            return;
+        }
+
+        let boardHtml = '';
+        let modalHtml = '';
+
+        const sortedDocs = snapshot.docs.map(doc => doc.data()).sort((a,b) => {
+            const timeA = a.timestamp ? Number(a.timestamp) : 0;
+            const timeB = b.timestamp ? Number(b.timestamp) : 0;
+            return timeB - timeA;
+        });
+
+        sortedDocs.forEach((notice) => {
+            let readableDate = "Notice Bulletin";
+            if (notice.timestamp) {
+                try { readableDate = new Date(Number(notice.timestamp)).toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}); } catch(e){}
+            }
+
+            const safeTitle = encodeURIComponent(notice.title || 'Untitled Notice');
+            const safeInfo = encodeURIComponent(notice.info || notice.content || '');
+            const safeDate = encodeURIComponent(readableDate);
+
+            boardHtml += `
+                <div onclick="showNoticeDetails('${safeTitle}', '${safeInfo}', '${safeDate}')" class="p-3 bg-white border border-gray-200/80 rounded-xl shadow-sm hover:border-blue-400 transition-all cursor-pointer">
+                    <span class="text-[9px] font-bold text-amber-500 tracking-wider uppercase block mb-0.5"><i class="far fa-calendar-alt mr-1"></i>${readableDate}</span>
+                    <h4 class="text-blue-900 font-bold text-xs sm:text-sm leading-snug">${notice.title || 'Untitled Notice'}</h4>
+                </div>`;
+
+            modalHtml += `
+                <div onclick="showNoticeDetails('${safeTitle}', '${safeInfo}', '${safeDate}')" class="p-3 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-blue-400 transition-all cursor-pointer flex justify-between items-center gap-4">
+                    <h5 class="font-bold text-slate-800 text-xs sm:text-sm leading-snug">${notice.title || 'Untitled Notice'}</h5>
+                    <span class="text-[10px] font-bold text-blue-900 bg-blue-50 px-2 py-1 rounded shrink-0 flex items-center gap-1.5"><i class="far fa-clock text-amber-500"></i> ${readableDate}</span>
+                </div>`;
+        });
+
+        liveNoticeContainer.innerHTML = boardHtml + boardHtml;
+        modalNoticeList.innerHTML = modalHtml;
+
+        startAutoScroll();
+    });
+
+    // 🚀 ENGINE: REQUEST ANIMATION FRAME ULTRA-SMOOTH ENGINE (FIXED)
+    function startAutoScroll() {
+        stopAutoScroll();
+        currentScrollTop = noticeBoardWrapper.scrollTop;
+
+        function scrollStep() {
+            if (!isHovered) {
+                currentScrollTop += 0.75; // স্ক্রল স্পীড
+                
+                // জাস্ট scrollHeight এর সঠিক অর্ধেক ক্যালকুলেট করা
+                const halfHeight = liveNoticeContainer.scrollHeight / 2;
+                
+                // যদি স্ক্রল অর্ধেক বা তার বেশি পার হয়ে যায়, থামা ছাড়া ইনস্ট্যান্টলি মাইনাস হবে
+                if (currentScrollTop >= halfHeight) {
+                    currentScrollTop -= halfHeight;
+                }
+                
+                // Math.floor ব্যবহার করে ব্রাউজারকে রাউন্ড ভ্যালু দেওয়া হলো যাতে ফ্রেম ড্রপ বা ল্যাগ না করে
+                noticeBoardWrapper.scrollTop = Math.floor(currentScrollTop);
+            } else {
+                currentScrollTop = noticeBoardWrapper.scrollTop;
+            }
+            scrollId = requestAnimationFrame(scrollStep);
+        }
+        scrollId = requestAnimationFrame(scrollStep);
+    }
+
+    function stopAutoScroll() {
+        if(scrollId) cancelAnimationFrame(scrollId);
+    }
+
+    noticeBoardWrapper.addEventListener('mouseenter', () => { isHovered = true; });
+    noticeBoardWrapper.addEventListener('mouseleave', () => { 
+        isHovered = false; 
+        currentScrollTop = noticeBoardWrapper.scrollTop; 
+    });
+
+    const allNoticesModal = document.getElementById('allNoticesModal');
+    const seeAllNoticesBtn = document.getElementById('seeAllNoticesBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    seeAllNoticesBtn.addEventListener('click', () => {
+        allNoticesModal.classList.remove('hidden');
+        allNoticesModal.classList.add('flex');
+        document.body.style.overflow = 'hidden'; 
+    });
+
+    const triggerCloseAction = () => {
+        allNoticesModal.classList.add('hidden');
+        allNoticesModal.classList.remove('flex');
+        document.body.style.overflow = 'auto'; 
+    };
+
+    closeModalBtn.addEventListener('click', triggerCloseAction);
+    allNoticesModal.addEventListener('click', (e) => {
+        if (e.target === allNoticesModal) triggerCloseAction();
+    });
+
+    const closeDetailsModal = () => { noticeDetailsModal.classList.add('hidden'); noticeDetailsModal.classList.remove('flex'); };
+    closeDetailsModalBtn.addEventListener('click', closeDetailsModal);
+    noticeDetailsModal.addEventListener('click', (e) => { if (e.target === noticeDetailsModal) closeDetailsModal(); });
+</script>
 </body>
 </html>
