@@ -8,9 +8,15 @@
         "verified_at": "2026-06-04T15:05:55.709359",
         "status_code": 200,
         "content_type": "application/vnd.apple.mpegurl"
-    },      
+    },
+     {
+        "name": "Somoy TV FIFA",
+        "logo": "https://i.postimg.cc/Qxn4JFNV/20250529-071147.png",
+        "group": "FIFA 2026",
+        "url": "https://sm-monirul.top/toffee/play/somoy_tv.m3u8"
+    },
     {
-        "name": "T Sports HD",
+        "name": "T Sports FIFA",
         "logo": "https://s3.aynaott.com/storage/dbc585f70a60b9855b6e13a8ce4cb6f4",
         "group": "FIFA 2026",
         "url": "https://tvsen7.aynaott.com/tsports-hd/index.m3u8?e=1779283784&u=78be6644-0a65-48ec-81a4-089ac65a2619&token=3b4c5a2cfa872fa7f91ffbfb4aa0f658",
@@ -20,14 +26,16 @@
         "content_type": "application/vnd.apple.mpegurl"
     },
     {
-        "name": "Cricket Gold",
-        "logo": "https://s3.aynaott.com/storage/7d20b575edc4e4b5276faa8c246e72a4",
-        "group": "Sports",
-        "url": "https://tvsen6.aynaott.com/CricketGold/index.m3u8?e=1779283786&u=78be6644-0a65-48ec-81a4-089ac65a2619&token=7c79e4f07ef8bf05e35ecffd9e056652",
-        "status": "live",
-        "verified_at": "2026-06-04T15:05:55.828697",
-        "status_code": 200,
-        "content_type": "application/vnd.apple.mpegurl"
+        "name": "T Sports FIFA 2",
+        "logo": "https://i.imgur.com/2JzlorD.png",
+        "group": "FIFA 2026",
+        "url": "https://tvsen7.aynaott.com/tsportsfhd/index.m3u8"
+    },
+     {
+        "name": "CAZE TV FIFA",
+        "logo": "https://images.seeklogo.com/logo-png/61/1/cazetv-logo-png_seeklogo-619708.png",
+        "group": "FIFA 2026",
+        "url": "https://dfr80qz435crc.cloudfront.net/MNOP/Amagi/Caze/Caze_TV_BR/Caze_TV.m3u8"
     },
     {
         "name": "A sports",
